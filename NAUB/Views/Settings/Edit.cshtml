@@ -1,0 +1,57 @@
+﻿@model NAUB.Models.Setting
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div id="content">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <header>Edit Settings</header>
+            <hr />
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MaximumNumberOfBooksPerBorrow, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.MaximumNumberOfBooksPerBorrow,new{@class="form-control"})
+                    @Html.ValidationMessageFor(model => model.MaximumNumberOfBooksPerBorrow)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NumberOfDays, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.NumberOfDays, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.NumberOfDays)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.OverdueFeePerBook, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.OverdueFeePerBook, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.OverdueFeePerBook)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

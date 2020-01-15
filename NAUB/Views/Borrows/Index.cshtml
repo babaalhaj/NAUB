@@ -1,0 +1,43 @@
+﻿@model IEnumerable<NAUB.ViewModels.LendingViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div id="content">
+    <header>Active borrowers list</header>
+    <article>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Borrower</th>
+                <th>Id number</th>
+                <th>Full name(s)</th>
+                <th>Borrowed date</th>
+                <th>Book ISBN number</th>
+                <th>Expected return date</th>
+            </tr>
+            </thead>
+            <tbody>
+            @{
+                foreach (var borrower in Model)
+                {
+                    <tr>
+                        <td>@borrower.Id</td>
+                        <td>@borrower.BorrowType</td>
+                        <td>@borrower.Borrow.BorrowerId</td>
+                        <td>@borrower.Borrow.Name</td>
+                        <td>@borrower.Borrow.BorrowDate.ToShortDateString()</td>
+                        <td>@borrower.Borrow.Isbn</td>
+                        <td>@borrower.ExpectedReturnDate.ToShortDateString()</td>
+                    </tr>
+                }
+            }
+
+            </tbody>
+        </table>
+    </article>
+</div>
+
+

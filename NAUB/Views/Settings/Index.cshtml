@@ -1,0 +1,35 @@
+﻿@model NAUB.Models.Setting
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div id="content">
+    <header>Default values for the Library Management System</header>
+    
+    <article>
+        <table class="table table-bordered table-responsive table-hover">
+            <thead>
+            <tr>
+                <th>Maximum number of books that can be borrowed</th><th>Number of days</th>
+                <th>Overdue fee per book</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>@Model.MaximumNumberOfBooksPerBorrow</td>
+                <td>@Model.NumberOfDays</td>
+                <td>=N= @Model.OverdueFeePerBook</td>
+            </tr>
+            </tbody>
+        </table>
+
+
+
+
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+            @*@Html.ActionLink("Back to List", "Index")*@
+        </p>
+    </article>
+</div>

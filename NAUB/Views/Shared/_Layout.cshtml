@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+
+    <div class="container display-table clearfix">
+        <div class="row display-table-row">
+            <div id="side-menu" class="col-md-2 col-sm-1 hidden-xs display-table-cell valign-top">
+                <ul class="hidden-xs hidden-sm">
+                    <li class="link active">
+                        <a href="@Url.Action("Index","Home")">
+                            <span class="glyphicon glyphicon-th"></span>
+                            <span class="hidden-xs hidden-sm">NAUB LMS</span>
+                        </a>
+                    </li>
+
+                    <li class="link">
+                        <a href="#collapse-post" data-toggle="collapse" aria-controls="collapse-post">
+                            <span class="glyphicon glyphicon-list-alt"></span>
+                            <span class="hidden-xs hidden-sm">Catalog</span>
+                            <span class="label label-success pull-right hidden-xs hidden-sm">@ViewBag.Catalog</span>
+                            </a>
+                        <ul class="collapse collapseable" id="collapse-post">
+                            <li><a href="@Url.Action("Create","Books")">Add a book</a></li>
+                            <li><a href="@Url.Action("Index","Books")">View books inventory</a>
+                                <span class="label label-success pull-right hidden-xs hidden-sm">@ViewBag.Catalog</span>
+                                </li>
+                        </ul>
+                    </li>
+
+                    <li class="link">
+                        <a href="#collapse-comments" data-toggle="collapse" aria-controls="collapse-comments">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            <span class="hidden-xs hidden-sm">Lending</span>
+                            <span class="label label-success pull-right hidden-xs hidden-sm">@ViewBag.Borrowers</span>
+                        </a>
+                        <ul class="collapse collapseable" id="collapse-comments">
+                            <li>
+                                <a href="@Url.Action("NumberOfBooks","Borrows")">
+                                    Lend book(s)
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Return book(s)
+                                    <span class="label label-warning pull-right hidden-xs hidden-sm">10 </span>
+                                </a>
+                            </li><li>
+                                <a href="@Url.Action("Index","Borrows")">
+                                    View lending
+                                   <span class="label label-success pull-right hidden-xs hidden-sm">@ViewBag.Borrowers</span>
+                                    </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="link">
+                        <a href="@Url.Action("About","Home")">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span class="hidden-xs hidden-sm">About Us</span>
+                        </a>
+                    </li>
+                    <li class="link">
+                        <a href="@Url.Action("Contact","Home")">
+                            <span class="glyphicon glyphicon-envelope"></span>
+                            <span class="hidden-xs hidden-sm">Contact US</span>
+                        </a>
+                    </li>
+                    <li class="link settings-btn">
+                        <a href="@Url.Action("","Settings")">
+                            <span class="glyphicon glyphicon-cog"></span>
+                            <span class="hidden-xs hidden-sm">Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-10 col-sm-11 display-table-cell valign-top">
+                <header id="nav-header" class="clearfix">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <nav class="navbar-default pull-left">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="offcanvas" data-target="#side-menu">
+                                    <span class="sr-only">Toggle Navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </nav>
+
+                        </div>
+                        <div class="col-md-7">
+                            <ul class="pull-right">
+
+
+                                <li>
+                                    <a href="#" class="logout">
+                                        <span class="glyphicon glyphicon-log-in"></span>
+                                        Login
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="logout">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                        Register
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </header>
+
+
+               
+
+                @*Content for each page*@
+                @RenderBody()
+
+                <footer><span class="pull-left">&copy; @DateTime.Now.Year</span><span class="pull-right">My ASP.NET Application</span></footer>
+                
+              
+
+            </div>
+
+
+
+
+
+
+        </div>
+
+
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+
+
+</body>
+</html>

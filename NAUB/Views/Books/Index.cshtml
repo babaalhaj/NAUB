@@ -1,0 +1,185 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div id="content">
+    <header>
+        Books inventory
+    </header>
+    <article>
+        <table id="books" class="table table-condensed table-hover">
+            <thead>
+            <tr>
+                <th>ISBN #</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Publisher</th>
+                <th>Edition</th>
+                <th>Year</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </article>
+</div>
+
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="article-editor">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4 class="modal-title">Book Details</h4>
+
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-3">
+                        <div style="font-weight: bold">Shelve #:</div>
+                        <div style="font-weight: bold">ISBN #:</div>
+                        <div style="font-weight: bold">Title:</div>
+                        <div style="font-weight: bold">Publisher:</div>
+                        <div style="font-weight: bold">Edition:</div>
+                        <div style="font-weight: bold">Year:</div>
+                        <div style="font-weight: bold"># in Stock:</div>
+                        <div style="font-weight: bold">Author(s):</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="shelveNumber"></div>
+                        <div id="isbn"></div>
+                        <div id="title"></div>
+                        <div id="publisher"></div>
+                        <div id="edition"></div>
+                        <div id="publicationYear"></div>
+                        <div id="numberInStock"></div>
+                        <div id="author1"></div>
+                        <div id="author2"></div>
+                        <div id="author3"></div>
+                    </div>
+                </div>
+                
+            </div>
+                
+            </div>
+
+        </div>
+    </div>
+
+<div class="loaderbody" id="loaderbody">
+    <div class="loader"></div>
+</div>
+
+
+@section scripts
+{
+    <script>
+        $(document).bind('ajaxStart',
+            function() {
+                $("#loaderbody").removeClass('hide');
+            }).bind('ajaxStop', function() {
+            $("#loaderbody").addClass('hide');
+        });
+
+        $(document).ready(function () {
+            $("#loaderbody").addClass('hide');
+
+            var table = $("#books").DataTable({
+                ajax: { url: "/api/books/", dataSrc: "" },
+                columns: [
+                    {
+                        data: "isbn",
+                        render: function(data, type, book) {
+                            return "<a href = '/books/edit/" + book.id + "'>" + book.isbn + "</a>";
+                        }
+                    },
+                    {
+                        data: "title"
+                    },
+                    {
+                        data: "author1"
+                    },
+                    {
+                        data: "publisher"
+                    },
+                    {
+                        data: "edition"
+                    },
+                    {
+                        data: "publicationYear"
+                    },
+                    {
+                        data: "id",
+                        render: function(data) {
+                            return "<button class='btn-link js-delete' data-book-id=" + data + ">Delete</button>";
+                        }
+
+                    },
+                    {
+                        data: "id",
+                        render: function(data) {
+                            return "<button class='btn-link js-details' data-book-id=" + data + ">Details</button>";
+                        }
+
+                    }
+                ]
+            });
+
+
+            $("#books").on("click",
+                ".js-delete",
+                function() {
+                    var button = $(this);
+                    bootbox.confirm("Are you sure you want to delete?",
+                        function(result) {
+                            if (result) {
+                                $.ajax({
+                                    "url": "/api/books/" + button.attr("data-book-id"),
+                                    "type": "DELETE"
+                                }).done(function() {
+                                        toastr.success("Record deleted successfully");
+                                        table.row(button.parents("tr")).remove().draw();
+                                    }
+                                );
+                            }
+                        });
+                });
+
+            $("#books").on("click",
+                ".js-details",
+                function () {
+                    var button = $(this);
+                    $("#article-editor").modal();
+                    $.ajax({
+                        "url": "/api/books/" + button.attr("data-book-id"),
+                        "type": "GET"
+                    }).done(function (data) {
+                            toastr.success("Showing book details");
+                            $("#isbn").html(data.isbn);
+                            $("#title").html(data.title);
+                            $("#author1").html(data.author1);
+                            $("#author2").html(data.author2);
+                            $("#author3").html(data.author3);
+                            $("#publisher").html(data.publisher);
+                            $("#publicationYear").html(data.publicationYear);
+                            $("#edition").html(data.edition);
+                            $("#numberInStock").html(data.numberInStock);
+                            $("#shelveNumber").html(data.shelveNumber);
+                        }
+                    );
+                });
+
+
+        });
+
+
+    </script>
+}

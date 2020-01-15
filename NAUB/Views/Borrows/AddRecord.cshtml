@@ -1,0 +1,49 @@
+﻿@model NAUB.ViewModels.BorrowViewModel
+
+@{
+    ViewBag.Title = "Add record";
+}
+
+
+<div id="content">
+<header>
+    Borrow out book(s)
+</header>
+    <article>
+    @using (Html.BeginForm("AddRecord","Borrows"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m=>m.Borrow.Id)
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Borrow.BorrowerType)
+                @Html.DropDownListFor(m => m.Borrow.BorrowerType,
+                    new SelectList(Model.BorrowTypes, "Id", "Name"),
+                    "--Select type--", new { @class = "form-control", autofocus = "true" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Borrow.BorrowerId)
+                @Html.TextBoxFor(m => m.Borrow.BorrowerId, new { @class = "form-control" })
+            </div><div class="form-group">
+                @Html.LabelFor(m => m.Borrow.Name)
+                @Html.TextBoxFor(m => m.Borrow.Name, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            @for (int i = 0; i<Model.MyBooks.Length ; i++)
+            {
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Borrow.Isbn)
+                    @Html.TextBoxFor(m => m.MyBooks[i], new {@class = "form-control"})
+                </div>
+            }
+            
+        <button class="btn btn-primary" type="submit">Add details &raquo;</button>
+        </div>
+    </div>
+
+    }
+    </article>
+</div>

@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "NumberOfBooks";
+}
+
+
+<div id="content">
+    <header>Number of books to be borrowed out to the borrower</header>
+    <article>
+        <div class="form-group">
+            <input class="form-control" type="text" value="" id="theValue" autofocus placeholder="# books" />
+        </div>
+
+        @Html.ActionLink("Go to book lending","AddRecord","Borrows",
+            new{getCount="1"}, new{@class="link"})
+        
+    </article>
+</div>
+
+@section scripts
+{
+    <script>
+        $(function() {
+            $(".link").click(function() {
+                var value = $("#theValue").val();
+                this.href = this.href.replace(1,value);
+            });
+        });
+    </script>
+}
