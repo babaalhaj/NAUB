@@ -9,29 +9,31 @@
     <article>
         <table class="table table-bordered">
             <thead>
-            <tr>
-                <th>#</th>
-                <th>Borrower</th>
-                <th>Id number</th>
-                <th>Full name(s)</th>
-                <th>Borrowed date</th>
-                <th>Book ISBN number</th>
-                <th>Expected return date</th>
-            </tr>
+                <tr>
+                    <th>Borrower</th>
+                    <th>Id number</th>
+                    <th>Full name(s)</th>
+                    <th>Book ISBN number</th>
+                    <th>Borrowed date</th>
+                    <th>Return date</th>
+                    <th># days remaining</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
             @{
                 foreach (var borrower in Model)
                 {
-                    <tr>
-                        <td>@borrower.Id</td>
-                        <td>@borrower.BorrowType</td>
-                        <td>@borrower.Borrow.BorrowerId</td>
-                        <td>@borrower.Borrow.Name</td>
-                        <td>@borrower.Borrow.BorrowDate.ToShortDateString()</td>
-                        <td>@borrower.Borrow.Isbn</td>
-                        <td>@borrower.ExpectedReturnDate.ToShortDateString()</td>
-                    </tr>
+                            <tr>
+                                <td>@borrower.BorrowType</td>
+                                <td>@borrower.Borrow.BorrowerId</td>
+                                <td>@borrower.Borrow.Name</td>
+                                <td>@borrower.Borrow.Isbn</td>
+                                <td>@borrower.Borrow.BorrowDate.ToShortDateString()</td>
+                                <td>@borrower.ExpectedReturnDate.ToShortDateString()</td>
+                                <td style="background: #f4ef92; text-align: center; border-color: #f3f1f0">@borrower.DaysRemaining() day(s)</td>
+                                <td><a href="#">Extend return date</a></td>
+                            </tr>
                 }
             }
 
