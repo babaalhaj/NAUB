@@ -40,7 +40,9 @@
                                         <td style="background: #aaf5b6; text-align: center;">@borrower.DaysRemaining() day(s)</td>
                                     }
 
-                                <td><a href="#">Extend return date</a></td>
+                            <td>
+                                @Html.ActionLink("Extend return date", "Extend", new { borrowerId = @borrower.Borrow.BorrowerId }, null)
+                            </td>
                             </tr>
                 }
             }

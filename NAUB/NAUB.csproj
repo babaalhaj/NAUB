@@ -41,6 +41,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -121,12 +127,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.1.0.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -222,6 +222,10 @@
     <Compile Include="Migrations\201910312013150_SeedBorrowType.Designer.cs">
       <DependentUpon>201910312013150_SeedBorrowType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001160639405_UpdatePendingChanges.cs" />
+    <Compile Include="Migrations\202001160639405_UpdatePendingChanges.Designer.cs">
+      <DependentUpon>202001160639405_UpdatePendingChanges.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Book.cs" />
@@ -233,6 +237,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\BorrowViewModel.cs" />
+    <Compile Include="ViewModels\ExtendViewModel.cs" />
     <Compile Include="ViewModels\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="ViewModels\LendingViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -530,6 +535,7 @@
     <Content Include="Views\Borrows\AddRecord.cshtml" />
     <Content Include="Views\Borrows\NumberOfBooks.cshtml" />
     <Content Include="Views\Borrows\Index.cshtml" />
+    <Content Include="Views\Borrows\Extend.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -571,6 +577,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910312013150_SeedBorrowType.resx">
       <DependentUpon>201910312013150_SeedBorrowType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001160639405_UpdatePendingChanges.resx">
+      <DependentUpon>202001160639405_UpdatePendingChanges.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

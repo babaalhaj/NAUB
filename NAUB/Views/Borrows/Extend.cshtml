@@ -1,0 +1,27 @@
+﻿@model NAUB.ViewModels.ExtendViewModel
+@{
+    ViewBag.Title = "Extend";
+}
+
+<div id="content">
+    <header>Extend return date</header>
+    <article>
+        <p><strong>Status:</strong> @Model.Status()</p>
+        <p><strong>Id #:</strong> @Model.BorrowerId</p>
+        <p><strong>Name:</strong>  @Model.Name</p><hr/>
+        
+        @using (Html.BeginForm())
+        {
+            <div>
+                <strong>Number of days:</strong>
+                @Html.TextBoxFor(m => m.NumberOfDays, new {@class = "form-control"})
+            </div>
+            <br/>
+            <br/>
+            <button class="btn btn-primary">Extend lending days</button>
+        }
+        
+    </article>
+</div>
+
+
