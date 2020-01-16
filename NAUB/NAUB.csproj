@@ -183,6 +183,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Library\Booking.cs" />
+    <Compile Include="Library\Overdue.cs" />
     <Compile Include="Migrations\201910190540390_InitialModel.cs" />
     <Compile Include="Migrations\201910190540390_InitialModel.Designer.cs">
       <DependentUpon>201910190540390_InitialModel.cs</DependentUpon>
@@ -247,6 +248,7 @@
     <Compile Include="ViewModels\LendingViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ManageUserViewModel.cs" />
+    <Compile Include="ViewModels\OverdueViewModel.cs" />
     <Compile Include="ViewModels\ProcessLendingViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
   </ItemGroup>
@@ -541,6 +543,7 @@
     <Content Include="Views\Borrows\NumberOfBooks.cshtml" />
     <Content Include="Views\Borrows\Index.cshtml" />
     <Content Include="Views\Borrows\Extend.cshtml" />
+    <Content Include="Views\Borrows\ReturnBook.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

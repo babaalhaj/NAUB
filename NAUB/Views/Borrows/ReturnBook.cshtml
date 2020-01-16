@@ -1,0 +1,37 @@
+﻿@using System.ServiceModel
+@model NAUB.ViewModels.OverdueViewModel
+@{
+    ViewBag.Title = "ReturnBook";
+}
+
+
+<div id="content">
+<header>Showing overdue details</header>
+
+    <article>
+        <div class="row">
+            <hr/>
+            <div class="col-md-2"><b>Borrowed date:</b></div>
+            <div class="col-md-10">@Model.Borrow.BorrowDate.ToShortDateString()</div>
+            <div class="col-md-2"><b>Full name:</b></div>
+            <div class="col-md-10">@Model.Borrow.Name</div>
+            <div class="col-md-2"><b>You are to pay:</b></div>
+            <div class="col-md-10">=N=@Model.OverdueDetails.OverdueAmount.ToString("##,###.00")</div>
+            <hr/>
+        </div>
+        <br/>
+
+        @using (Html.BeginForm("OverdueReturnBook", "Borrows"))
+        {
+
+            @Html.HiddenFor(m=>m.Borrow.Id)
+            @Html.HiddenFor(m=>m.Borrow.Isbn)
+            @Html.CheckBoxFor(m=>m.AlreadyPaid) <text>Already Paid?</text>
+                                                              <br/>
+                                                              <br/>
+                                                              <br/>
+            <button class="btn btn-primary">Return Book.</button>
+        }
+    </article>
+</div>
+

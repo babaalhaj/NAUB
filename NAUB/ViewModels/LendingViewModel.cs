@@ -2,7 +2,7 @@
 using System;
 
 namespace NAUB.ViewModels
-    {
+{
     public class LendingViewModel
         {
         public int Id { get; set; }
@@ -12,7 +12,6 @@ namespace NAUB.ViewModels
         public string BorrowType => Borrow.BorrowerType == "1" ? "Staff" : "Student";
         public int DefaultDaysRemaining() => (int)(ExpectedReturnDate.Date - Borrow.BorrowDate.Date).TotalDays;
         public int DaysRemaining() => (int)(ExpectedReturnDate.Date - DateTime.Now.Date).TotalDays ;
-
         public bool IsOverdue() => (DaysRemaining() < 0);
 
         }

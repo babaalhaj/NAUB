@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web.Mvc;
 
 namespace NAUB.Controllers
-    {
+{
     public class BorrowsController : Controller
         {
         private readonly ApplicationDbContext _context;
@@ -107,27 +107,72 @@ namespace NAUB.Controllers
             return View("Index", processBorrowers.GetLendingDetails());
             }
 
-        // GET:/Borrows/ReturnBook
+        
         public ActionResult ReturnBook(string borrowerId, string bookIsbn)
+        {
+
+            // Check and see if overdue
+            var checkOverdue = Overdue.Details(_context, borrowerId, bookIsbn);
+            // Get borrowers details
+            var borrow = _context.Borrows.Single(b => b.BorrowerId == borrowerId && b.Isbn == bookIsbn);
+
+
+            if (checkOverdue.IsOverdue)
             {
-                // Get borrowers details
-                var borrow = _context.Borrows.Single(b => b.BorrowerId == borrowerId && b.Isbn == bookIsbn);
+                var overdue = new OverdueViewModel { Borrow = borrow, OverdueDetails = checkOverdue };
+                return View("ReturnBook", overdue);
+            }
+
+
+
+
+            // Set the return date and flag the book as returned.
+            borrow.ReturnDate = DateTime.Now;
+            borrow.IsReturned = true;
+
+            var book = _context.Books.Single(b => b.Isbn == bookIsbn);
+
+            // Add the number of books in stock.
+            book.NumberInStock++;
+
+            _context.SaveChanges();
+
+            // Initialize the Lending List
+            ViewBag.Borrowers = _context.Borrows.Count();
+            var processBorrowers = new ProcessLendingViewModel(_context);
+            return View("Index", processBorrowers.GetLendingDetails());
+        }
+
+        [HttpPost]
+        public ActionResult OverdueReturnBook(OverdueViewModel model)
+        {
+            var processBorrowers = new ProcessLendingViewModel(_context);
+            
+
+            if (model.AlreadyPaid)
+            {
+                var book = _context.Books.Single(b => b.Isbn == model.Borrow.Isbn);
+                var borrow = _context.Borrows.Single(b => b.Id == model.Borrow.Id);
 
                 // Set the return date and flag the book as returned.
                 borrow.ReturnDate = DateTime.Now;
                 borrow.IsReturned = true;
 
-                var book = _context.Books.Single(b => b.Isbn == bookIsbn);
-
                 // Add the number of books in stock.
                 book.NumberInStock++;
 
                 _context.SaveChanges();
-            
+
+                // Initialize the Lending List
+                ViewBag.Borrowers = _context.Borrows.Count();
+                
+                return View("Index", processBorrowers.GetLendingDetails());
+            }
+
             // Initialize the Lending List
             ViewBag.Borrowers = _context.Borrows.Count();
-            var processBorrowers = new ProcessLendingViewModel(_context);
             return View("Index", processBorrowers.GetLendingDetails());
-            }
         }
+
+    }
     }
