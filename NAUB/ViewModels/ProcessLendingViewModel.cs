@@ -21,18 +21,18 @@ namespace NAUB.ViewModels
 
             foreach (var borrower in borrowers)
             {
-                if (getDaysLimit != null)
+                if (getDaysLimit != null && borrower.IsReturned == false)
                     borrowersList.Add(new LendingViewModel
                     {
                         Borrow = borrower,
                         Id = counter,
-                        ExpectedReturnDate = borrower.BorrowDate.AddDays(getDaysLimit.NumberOfDays)
+                        ExpectedReturnDate = borrower.BorrowDate.AddDays(getDaysLimit.NumberOfDays), Isbn = borrower.Isbn
                     });
 
                 counter++;
             }
 
-            return borrowersList;
+            return borrowersList.OrderByDescending(b=>b.Borrow.Name);
 
         }
     }

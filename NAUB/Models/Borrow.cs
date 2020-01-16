@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace NAUB.Models
-{
+    {
     public class Borrow
     {
         public int Id { get; set; }
@@ -28,5 +25,6 @@ namespace NAUB.Models
         public DateTime BorrowDate { get; set; }
 
         public DateTime? ReturnDate { get; set; }
+        public bool IsReturned { get; set; }
     }
 }

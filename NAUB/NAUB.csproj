@@ -182,6 +182,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Library\Booking.cs" />
     <Compile Include="Migrations\201910190540390_InitialModel.cs" />
     <Compile Include="Migrations\201910190540390_InitialModel.Designer.cs">
       <DependentUpon>201910190540390_InitialModel.cs</DependentUpon>
@@ -225,6 +226,10 @@
     <Compile Include="Migrations\202001160639405_UpdatePendingChanges.cs" />
     <Compile Include="Migrations\202001160639405_UpdatePendingChanges.Designer.cs">
       <DependentUpon>202001160639405_UpdatePendingChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001160844218_addIsReturnedColumnToborrowsTable.cs" />
+    <Compile Include="Migrations\202001160844218_addIsReturnedColumnToborrowsTable.Designer.cs">
+      <DependentUpon>202001160844218_addIsReturnedColumnToborrowsTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -580,6 +585,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001160639405_UpdatePendingChanges.resx">
       <DependentUpon>202001160639405_UpdatePendingChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001160844218_addIsReturnedColumnToborrowsTable.resx">
+      <DependentUpon>202001160844218_addIsReturnedColumnToborrowsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

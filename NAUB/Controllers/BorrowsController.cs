@@ -1,4 +1,5 @@
-﻿using NAUB.Models;
+﻿using NAUB.Library;
+using NAUB.Models;
 using NAUB.ViewModels;
 using System;
 using System.Linq;
@@ -21,7 +22,6 @@ namespace NAUB.Controllers
                 _context.Dispose();
             }
 
-        // TODO: List of Borrowers
         // GET: /Borrows/
         public ActionResult Index()
             {
@@ -62,50 +62,39 @@ namespace NAUB.Controllers
             //if (!ModelState.IsValid)
             //    return View("AddRecord", borrowViewModel);
 
-            var books = _context.Books.Where(b => borrowViewModel.MyBooks.Contains(b.Isbn)).ToList();
+            Booking.AddBooking(borrowViewModel, _context);
 
-            short counter = 0;
-            foreach (var book in books)
-            {
-                book.NumberInStock--;
+            var processBorrowers = new ProcessLendingViewModel(_context);
 
-                var borrows = new Borrow
-                {
-                    BorrowerType = borrowViewModel.Borrow.BorrowerType,
-                    BorrowerId = borrowViewModel.Borrow.BorrowerId,
-                    Name = borrowViewModel.Borrow.Name,
-                    Isbn = borrowViewModel.MyBooks[counter],
-                    BorrowDate = DateTime.Today
-                };
-
-                counter++;
-                _context.Borrows.Add(borrows);
+            return View("Index", processBorrowers.GetLendingDetails());
             }
 
-            _context.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
-            }
 
         // GET:/Borrows/Extend
-        public ActionResult Extend(string borrowerId)
-        {
-            var borrow = _context.Borrows.SingleOrDefault(b => b.BorrowerId == borrowerId);
-            //var borrow = _context.Borrows.Single(l => l.Id == id);
-            var extend = new ExtendViewModel
+        public ActionResult Extend(string borrowerId, string bookIsbn)
             {
-                BorrowerId = borrow.BorrowerId, BorrowerType = borrow.BorrowerType,
-                Name = borrow.Name, NumberOfDays = 0
-            };
+            var borrow = _context.Borrows.SingleOrDefault(b => b.BorrowerId == borrowerId && b.Isbn == bookIsbn);
+
+            var extend = new ExtendViewModel
+                {
+                BorrowerId = borrow.BorrowerId,
+                BorrowerType = borrow.BorrowerType,
+                Name = borrow.Name,
+                NumberOfDays = 0,
+                Isbn = borrow.Isbn
+                };
 
             return View(extend);
-        }
+            }
+
+
 
         [HttpPost]
         public ActionResult Extend(ExtendViewModel model)
-        {
+            {
             // Arrange
-            var borrow = _context.Borrows.Single(b => b.BorrowerId == model.BorrowerId);
+            var borrow = _context.Borrows.Single(b => b.BorrowerId == model.BorrowerId && b.Isbn == model.Isbn);
             borrow.BorrowDate = borrow.BorrowDate.AddDays(model.NumberOfDays);
 
             // Save extension date to database
@@ -116,7 +105,29 @@ namespace NAUB.Controllers
             var processBorrowers = new ProcessLendingViewModel(_context);
 
             return View("Index", processBorrowers.GetLendingDetails());
-        }
+            }
 
+        // GET:/Borrows/ReturnBook
+        public ActionResult ReturnBook(string borrowerId, string bookIsbn)
+            {
+                // Get borrowers details
+                var borrow = _context.Borrows.Single(b => b.BorrowerId == borrowerId && b.Isbn == bookIsbn);
+
+                // Set the return date and flag the book as returned.
+                borrow.ReturnDate = DateTime.Now;
+                borrow.IsReturned = true;
+
+                var book = _context.Books.Single(b => b.Isbn == bookIsbn);
+
+                // Add the number of books in stock.
+                book.NumberInStock++;
+
+                _context.SaveChanges();
+            
+            // Initialize the Lending List
+            ViewBag.Borrowers = _context.Borrows.Count();
+            var processBorrowers = new ProcessLendingViewModel(_context);
+            return View("Index", processBorrowers.GetLendingDetails());
+            }
         }
     }

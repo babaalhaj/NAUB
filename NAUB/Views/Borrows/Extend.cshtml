@@ -12,6 +12,7 @@
         
         @using (Html.BeginForm())
         {
+            @Html.HiddenFor(m=>m.Isbn)
             <div>
                 <strong>Number of days:</strong>
                 @Html.TextBoxFor(m => m.NumberOfDays, new {@class = "form-control"})

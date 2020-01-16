@@ -17,7 +17,7 @@
                     <th>Borrowed date</th>
                     <th>Return date</th>
                     <th># days remaining</th>
-                    <th></th>
+                    <th></th><th></th>
                 </tr>
             </thead>
             <tbody>
@@ -40,8 +40,14 @@
                                         <td style="background: #aaf5b6; text-align: center;">@borrower.DaysRemaining() day(s)</td>
                                     }
 
-                            <td>
-                                @Html.ActionLink("Extend return date", "Extend", new { borrowerId = @borrower.Borrow.BorrowerId }, null)
+                                <td>
+                                    @Html.ActionLink("Extend date", "Extend", 
+                                        new { borrowerId = @borrower.Borrow.BorrowerId, 
+                                            bookIsbn = @borrower.Isbn }, null)
+                                </td>
+                                <td>
+                                @Html.ActionLink("Return book", "ReturnBook",
+                                    new { borrowerId = @borrower.Borrow.BorrowerId, bookIsbn = @borrower.Isbn }, null)
                             </td>
                             </tr>
                 }
