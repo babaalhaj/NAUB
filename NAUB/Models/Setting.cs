@@ -10,7 +10,7 @@ namespace NAUB.Models
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "# of books is required!!!")]
-        [Display(Name = "Maximum number of books that can be borrowed")]
+        [Display(Name = "Maximum number of books")]
         public short MaximumNumberOfBooksPerBorrow { get; set; }
 
         [Required(ErrorMessage = "# of days is required!!!")]

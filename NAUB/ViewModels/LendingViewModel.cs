@@ -12,6 +12,7 @@ namespace NAUB.ViewModels
         public int DefaultDaysRemaining() => (int)(ExpectedReturnDate.Date - Borrow.BorrowDate.Date).TotalDays;
         public int DaysRemaining() => (int)(ExpectedReturnDate.Date - DateTime.Now.Date).TotalDays ;
 
+        public bool IsOverdue() => (DaysRemaining() < 0);
 
         }
     }

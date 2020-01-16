@@ -31,7 +31,15 @@
                                 <td>@borrower.Borrow.Isbn</td>
                                 <td>@borrower.Borrow.BorrowDate.ToShortDateString()</td>
                                 <td>@borrower.ExpectedReturnDate.ToShortDateString()</td>
-                                <td style="background: #f4ef92; text-align: center; border-color: #f3f1f0">@borrower.DaysRemaining() day(s)</td>
+                                @if (borrower.IsOverdue())
+                                    {
+                                    <td style="background: #f1c0ad; text-align: center;">Overdue</td>
+                                    }
+                                else
+                                    {
+                                        <td style="background: #aaf5b6; text-align: center;">@borrower.DaysRemaining() day(s)</td>
+                                    }
+
                                 <td><a href="#">Extend return date</a></td>
                             </tr>
                 }
