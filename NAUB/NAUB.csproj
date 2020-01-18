@@ -232,6 +232,10 @@
     <Compile Include="Migrations\202001160844218_addIsReturnedColumnToborrowsTable.Designer.cs">
       <DependentUpon>202001160844218_addIsReturnedColumnToborrowsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001180643220_modifiedBorrowsTable.cs" />
+    <Compile Include="Migrations\202001180643220_modifiedBorrowsTable.Designer.cs">
+      <DependentUpon>202001180643220_modifiedBorrowsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Book.cs" />
@@ -591,6 +595,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001160844218_addIsReturnedColumnToborrowsTable.resx">
       <DependentUpon>202001160844218_addIsReturnedColumnToborrowsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001180643220_modifiedBorrowsTable.resx">
+      <DependentUpon>202001180643220_modifiedBorrowsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

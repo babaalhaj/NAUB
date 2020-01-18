@@ -25,7 +25,7 @@ namespace NAUB.Controllers
         // GET: /Borrows/
         public ActionResult Index()
             {
-            ViewBag.Borrowers = _context.Borrows.Count();
+            ViewBag.Borrowers = _context.Borrows.Where(b => b.IsReturned == false).ToList().Count();
             var processBorrowers = new ProcessLendingViewModel(_context);
             return View(processBorrowers.GetLendingDetails());
             }
@@ -58,13 +58,36 @@ namespace NAUB.Controllers
         [HttpPost]
         public ActionResult AddRecord(BorrowViewModel borrowViewModel)
             {
-            // TODO: Implement save borrow validation
-            //if (!ModelState.IsValid)
-            //    return View("AddRecord", borrowViewModel);
+           
+            // Check if borrower has books in his/her possession.
+            var validator = _context.Borrows
+                .Where(b => b.BorrowerId == borrowViewModel.Borrow.BorrowerId && b.IsReturned == false);
+            var settings = _context.Settings.Single(s => s.Id == 1);
 
+            int getCount = validator.Count();
+            int getBooksCount = settings.MaximumNumberOfBooksPerBorrow;
+
+            if (validator.Count() >= settings.MaximumNumberOfBooksPerBorrow)
+            {
+                var model = new BorrowViewModel((byte)borrowViewModel.MyBooks.Length)
+                {
+                    BorrowTypes = _context.BorrowTypes.ToList()
+                };
+
+                var message =
+                    string.Format(
+                        @"Maximum number of books exceeded, the borrower has {0} books in his/her possession already.", 
+                        validator.Count());
+                ModelState.AddModelError(string.Empty, message);
+                return View("AddRecord", model);
+            }
+
+            
             Booking.AddBooking(borrowViewModel, _context);
 
             var processBorrowers = new ProcessLendingViewModel(_context);
+
+            ViewBag.Borrowers = _context.Borrows.Where(b => b.IsReturned == false).ToList().Count();
 
             return View("Index", processBorrowers.GetLendingDetails());
             }
@@ -74,7 +97,7 @@ namespace NAUB.Controllers
         // GET:/Borrows/Extend
         public ActionResult Extend(string borrowerId, string bookIsbn)
             {
-            var borrow = _context.Borrows.SingleOrDefault(b => b.BorrowerId == borrowerId && b.Isbn == bookIsbn);
+            var borrow = _context.Borrows.Single(b => b.BorrowerId == borrowerId && b.Isbn == bookIsbn);
 
             var extend = new ExtendViewModel
                 {
@@ -101,7 +124,7 @@ namespace NAUB.Controllers
             _context.SaveChanges();
 
             // Initialize the Lending List
-            ViewBag.Borrowers = _context.Borrows.Count();
+            ViewBag.Borrowers = _context.Borrows.Where(b => b.IsReturned == false).ToList().Count();
             var processBorrowers = new ProcessLendingViewModel(_context);
 
             return View("Index", processBorrowers.GetLendingDetails());
@@ -123,9 +146,6 @@ namespace NAUB.Controllers
                 return View("ReturnBook", overdue);
             }
 
-
-
-
             // Set the return date and flag the book as returned.
             borrow.ReturnDate = DateTime.Now;
             borrow.IsReturned = true;
@@ -138,8 +158,8 @@ namespace NAUB.Controllers
             _context.SaveChanges();
 
             // Initialize the Lending List
-            ViewBag.Borrowers = _context.Borrows.Count();
             var processBorrowers = new ProcessLendingViewModel(_context);
+            ViewBag.Borrowers = _context.Borrows.Where(b => b.IsReturned == false).ToList().Count();
             return View("Index", processBorrowers.GetLendingDetails());
         }
 
@@ -164,13 +184,13 @@ namespace NAUB.Controllers
                 _context.SaveChanges();
 
                 // Initialize the Lending List
-                ViewBag.Borrowers = _context.Borrows.Count();
-                
+                ViewBag.Borrowers = _context.Borrows.Where(b => b.IsReturned == false).ToList().Count();
+
                 return View("Index", processBorrowers.GetLendingDetails());
             }
 
             // Initialize the Lending List
-            ViewBag.Borrowers = _context.Borrows.Count();
+            ViewBag.Borrowers = _context.Borrows.Where(b => b.IsReturned == false).ToList().Count();
             return View("Index", processBorrowers.GetLendingDetails());
         }
 

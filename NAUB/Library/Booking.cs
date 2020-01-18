@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using NAUB.Models;
+﻿using NAUB.Models;
 using NAUB.ViewModels;
+using System;
+using System.Linq;
 
 namespace NAUB.Library
-    {
+{
     public static class Booking
         {
             public static void AddBooking(BorrowViewModel borrowViewModel, ApplicationDbContext context)

@@ -19,7 +19,7 @@ namespace NAUB.Models
         StringLength(50)]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "ISBN is required"), StringLength(50), Display(Name = "ISBN #")]
+        [StringLength(50), Display(Name = "ISBN #")]
         public string Isbn { get; set; }
 
         public DateTime BorrowDate { get; set; }
