@@ -58,14 +58,29 @@ namespace NAUB.Controllers
         [HttpPost]
         public ActionResult AddRecord(BorrowViewModel borrowViewModel)
             {
-           
+
             // Check if borrower has books in his/her possession.
+            var borrowersId = borrowViewModel.Borrow.BorrowerId;
+            var isbn = borrowViewModel.Borrow.Isbn;
+            var checkBook = _context.Borrows
+                .SingleOrDefault(b => b.IsReturned == false && b.BorrowerId == borrowersId && b.Isbn == isbn);
+            
+            if (checkBook != null)
+            {
+                var model = new BorrowViewModel((byte)borrowViewModel.MyBooks.Length)
+                {
+                    BorrowTypes = _context.BorrowTypes.ToList()
+                };
+
+                var message =
+                    $@"Borrower has {isbn} book in his/her possession already.";
+                ModelState.AddModelError(string.Empty, message);
+                return View("AddRecord", model);
+            }
+
             var validator = _context.Borrows
                 .Where(b => b.BorrowerId == borrowViewModel.Borrow.BorrowerId && b.IsReturned == false);
             var settings = _context.Settings.Single(s => s.Id == 1);
-
-            int getCount = validator.Count();
-            int getBooksCount = settings.MaximumNumberOfBooksPerBorrow;
 
             if (validator.Count() >= settings.MaximumNumberOfBooksPerBorrow)
             {
@@ -76,13 +91,13 @@ namespace NAUB.Controllers
 
                 var message =
                     string.Format(
-                        @"Maximum number of books exceeded, the borrower has {0} books in his/her possession already.", 
+                        @"Maximum number of books exceeded, the borrower has {0} books in his/her possession already.",
                         validator.Count());
                 ModelState.AddModelError(string.Empty, message);
                 return View("AddRecord", model);
             }
 
-            
+
             Booking.AddBooking(borrowViewModel, _context);
 
             var processBorrowers = new ProcessLendingViewModel(_context);

@@ -1,6 +1,7 @@
 ﻿using NAUB.Models;
 using NAUB.ViewModels;
 using System;
+using System.Data.Entity;
 using System.Linq;
 
 namespace NAUB.Library
@@ -24,6 +25,10 @@ namespace NAUB.Library
                         Isbn = borrowViewModel.MyBooks[counter],
                         BorrowDate = DateTime.Today
                     };
+
+                    var entry = context.Entry(borrows);
+                    if (entry.State == EntityState.Detached)
+                        context.Borrows.Attach(borrows);
 
                     counter++;
                     context.Borrows.Add(borrows);
